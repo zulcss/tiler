@@ -1,0 +1,6 @@
+[run]
+branch = True
+source = tiler
+
+[report]
+ignore_errors = True
