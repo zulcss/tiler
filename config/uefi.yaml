@@ -1,0 +1,22 @@
+---
+source:
+  url: https://192.168.100.1/pablo.tar.gz
+disk:
+   partitions:
+     - name: EFI
+       start: O#
+       end: 256MB
+       flags: [boot, esp]
+     - name: ROOT
+       start: 256MB
+       end: 100%
+   filesystems:
+     - name: EFI
+       label: EFI
+       fs: vfat
+       options: []
+     - name: ROOT
+       label: ROOT
+       fs: ext4
+       options: []
+
