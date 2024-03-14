@@ -1,10 +1,9 @@
 ---
 source:
-  origin: https://192.168.100.1/pablo.tar.gz
-  file: rootfs.tar.gz
+  repository: /var/www/html/repo
+  branch: pablo/1.0
 disk:
   device: /dev/vda
-  partitiontype: gpt
   partitions:
     - name: EFI
       start: O%
@@ -22,4 +21,3 @@ disk:
       label: ROOT
       fs: ext4
       options: []
-

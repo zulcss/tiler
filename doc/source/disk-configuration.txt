@@ -1,0 +1,55 @@
+== Disk configuration ==
+
+disk:
+  device: /dev/vda
+  partitiontype: gpt
+  partitions:
+    <list of partitions>
+  filesystems:
+    <list of filesystems>
+
+
+Mandatory properties
+
+- device -- the name of the device to be acted on
+
+- partitiontype -- partition type table. Currently only "gpt" partition tables
+  are supported.
+
+- partitions -- list of partitions, at least two partitions is needed (EFI and
+  ROOT). Partition properties are described below.
+
+ - filesystems: list of filesystems for partitions.
+
+== Partition configuration ==
+
+patitions:
+  - name: partition name
+    start: offset
+    end: offset
+    flags: list of flags
+
+Mandatory properties
+
+- name -- is used for referencing name paritiion for filesystem configuration. 
+  (below) and label the filesystem location on this partition. Must be unique.
+
+- start -- offset from the beginning of the disk there the partition starts.
+
+- end -- offset from the beginning of the disk there the partition ends.
+
+- flags -- list of additional flags for partiton compatible with parted(8)
+'set' command
+
+== Filesystem configuration ==
+
+- name -- is sused for referenting name filesystem configuration,
+  and label the filesystem for this partition. Must be unique.
+
+- label -- label for the partion in the GPT partition tbale. Defaults to the
+  'name' property of the filesystem.
+
+- fs -- filesystem type for formatting.
+
+- options -- list of additional flags for filesystem compatible with mkfs(8)
+  command.
