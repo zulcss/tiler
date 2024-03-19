@@ -8,6 +8,7 @@ import logging
 
 from tiler.config import Config
 from tiler.config import exceptions
+from tiler.image import ImagePart
 
 LOG = logging.getLogger(__name__)
 
@@ -16,6 +17,7 @@ class Installer(object):
     def __init__(self, state):
         self.state = state
         self.config = Config(self.state)
+        self.image = None
 
     def install(self):
         LOG.info("Installing Debian Linux.")
@@ -26,5 +28,9 @@ class Installer(object):
                 f"Failed to load configuration: {self.state.config}")
         config = self.config.load_config()
 
-        LOG.info("Perforfind install")
         print(config)
+
+        LOG.info("Create Disk Partition and Format Filesystem")
+        self.image = ImagePart(self.state, config).run()
+
+        LOG.info("Perforfind install")
