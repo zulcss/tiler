@@ -20,8 +20,8 @@ class Installer(object):
     def install(self):
         LOG.info("Installing Debian Linux.")
 
-        self.logging.info("Loading configuration file.")
-        if self.state.configi.exists():
+        LOG.info("Loading configuration file.")
+        if self.state.config.exists():
             exceptions.ConfigError(
                 f"Failed to load configuration: {self.state.config}")
         config = self.config.load_config()
