@@ -6,7 +6,7 @@ disk:
   device: /dev/vda
   partitions:
     - name: EFI
-      start: O%
+      start: 0%
       end: 256MB
       flags: [boot, esp]
     - name: ROOT
