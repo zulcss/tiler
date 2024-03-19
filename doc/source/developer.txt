@@ -1,0 +1,33 @@
+== Build environment setup ==
+
+To create a dev environment for tiler
+
+1. Build the dev container from the main directory, run:
+
+    tools/build-container.sh
+
+2. To run the dev container from the main directory, run:
+
+    tools/run-vm.sh
+
+== Building an ostree branch == 
+
+Before running tiler you have to create an ostree repository. In the main
+repository run the following commands:
+
+1. cd config/ostree
+
+2. ruck build --config iamge.yaml
+
+== To create an install ISO ==
+
+To create an install ISO to be used in a VM or bare metal run the following
+commands:
+
+1. cd live-config
+
+2. ./build-iso.sh
+
+To remove the build artifacts simply run the following script:
+
+  ,/clean.sh
