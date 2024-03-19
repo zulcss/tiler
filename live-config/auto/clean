@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -e
+
+lb clean noauto "${@}"
+
+rm -f config/binary  \
+      config/bootstrap \
+      config/chroot \
+      config/common \
+      config/source 
+
+if [ -e config/hooks ]; then \
+    find config/hooks -type l \
+		| xargs --no-run-if-empty rm -f
+fi
+
+rm -f build.log

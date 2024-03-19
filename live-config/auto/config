@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e
+
+lb config noauto \
+    --distribution bookworm \
+    --apt-indices false \
+    --backports false \
+    --source false \
+    --debian-installer-distribution bookworm \
+    --firmware-binary true \
+    --firmware-chroot true \
+    --initramfs live-boot \
+    --iso-publisher debian-live-config \
+    --iso-volume debian-live-config-4.1.0 \
+    --linux-packages "linux-image linux-headers" \
+    --bootappend-live "boot=live config splash" \
+    --memtest memtest86+ \
+    --win32-loader true \
+    "${@}"
