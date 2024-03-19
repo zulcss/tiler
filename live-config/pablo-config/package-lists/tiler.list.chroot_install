@@ -16,3 +16,4 @@ gir1.2-ostree-1.0
 libcairo2-dev
 libgirepository1.0-dev
 python3-pbr
+parted
