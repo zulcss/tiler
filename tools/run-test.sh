@@ -9,7 +9,7 @@ virt-install --name tiler-test \
     --boot loader=/usr/share/ovmf/OVMF.fd \
     --video virtio \
     --disk path=$LIBVIRT_STORAGE_PATH/tiler-test-disk0.qcow2,format=qcow2,size=20,device=disk,bus=virtio,cache=none \
-    --cdrom ../live-config/pablo-live-$DATE.iso \
-    -noautoconsole \
+    --cdrom live-config/pablo-live-$DATE.iso \
+    --noautoconsole \
     --memory 3048 \
     --vcpu 2

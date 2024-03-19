@@ -17,3 +17,4 @@ libcairo2-dev
 libgirepository1.0-dev
 python3-pbr
 parted
+dosfstools
