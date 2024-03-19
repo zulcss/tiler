@@ -26,7 +26,7 @@ LOG = logging.getLogger(__name__)
 @debug_option
 @workspace_option
 def cli(state, debug, workspace):
-    setup_log()
+    setup_log(debug)
 
     state.workspace.mkdir(parents=True, exist_ok=True)
     LOG.info("Loading tiler.")
