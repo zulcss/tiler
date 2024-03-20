@@ -25,3 +25,5 @@ RUN pip3 install -e git+https://github.com/zulcss/ruck.git#egg=ruck
 RUN mkdir -p /var/www/html
 
 RUN mkdir -p usr/src
+
+WORKDIR /usr/src
