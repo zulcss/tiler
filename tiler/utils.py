@@ -4,8 +4,8 @@ Copyright (c) 2024 Wind River Systems, Inc.
 SPDX-License-Identifier: Apache-2.0
 
 """
-import subprocess
 import logging
+import subprocess
 
 LOG = logging.getLogger(__name__)
 

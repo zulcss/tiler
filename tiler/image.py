@@ -1,3 +1,8 @@
+"""
+Copyright (c) 2023 Wind River Systems, Inc.
+
+SPDX-License-Identifier: Apache-2.0
+"""
 
 import logging
 import os
@@ -71,7 +76,7 @@ class ImagePart(object):
                 ["mkfs", "-F", "-t", fs_type, "-L", label, fs], check=True)
 
     def get_partition_device(self, number, device):
-        suffic = "p"
+        suffix = "p"
         # Check partition naming first: if used 'by-id'i naming convention
         if "/disk/by-id" in device:
             suffix = "-part"
