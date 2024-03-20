@@ -8,7 +8,7 @@ To create a dev environment for tiler
 
 2. To run the dev container from the main directory, run:
 
-    tools/run-vm.sh
+    tools/run-dev.sh
 
 == Building an ostree branch == 
 
@@ -17,7 +17,7 @@ repository run the following commands:
 
 1. cd config/ostree
 
-2. ruck build --config iamge.yaml
+2. ruck build --config image.yaml
 
 == To create an install ISO ==
 
