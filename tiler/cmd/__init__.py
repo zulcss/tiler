@@ -14,6 +14,8 @@ class State:
         self.workspate = None
         self.debug = False
 
+        self.url = None
+
 
 # pass state between command and apt-ostree sub-commands
 pass_state_context = click.make_pass_decorator(State, ensure=True)

@@ -57,7 +57,6 @@ class ImagePart(object):
                           part.get("label"),
                           part.get("name"))
 
-
     def mkfs(self, fs, fs_type, label, name):
         """Formatting the filesystem."""
         self.logging.info(f"Formatting filesystems for {name}.")
@@ -71,7 +70,6 @@ class ImagePart(object):
             subprocess.run(
                 ["mkfs", "-F", "-t", fs_type, "-L", label, fs], check=True)
 
-
     def get_partition_device(self, number, device):
         suffic = "p"
         # Check partition naming first: if used 'by-id'i naming convention
@@ -80,9 +78,8 @@ class ImagePart(object):
 
         # If the iamge device has a digit as the last character, the partition
         # suffix is p<number> else it's just <number>
-        last = device[len(device)-1]
+        last = device[len(device) - 1]
         if last >= "0" and last <= "9":
             return "%s%s%d" % (device, suffix, number)
         else:
             return "%s%d" % (device, number)
-

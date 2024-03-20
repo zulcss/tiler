@@ -9,6 +9,7 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+
 def run_command(cmd, print_output=True, **kwargs):
     LOG.debug('Running %s' % cmd)
 
@@ -36,7 +37,6 @@ def run_command(cmd, print_output=True, **kwargs):
     rc = process.poll()
     LOG.debug("rc %d" % rc)
     return rc, outputs
-
 
 
 def run_chroot(args, image, **kwargs):

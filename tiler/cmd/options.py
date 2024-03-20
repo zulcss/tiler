@@ -53,3 +53,19 @@ def config_option(f):
         required=True,
         callback=callback
     )(f)
+
+
+""" ISO Options """
+
+
+def url_option(f):
+    def callback(ctxt, param, value):
+        state = ctxt.ensure_object(State)
+        state.url = value
+        return value
+    return click.option(
+        "--url",
+        help="URL to fetch ISO from.",
+        nargs=1,
+        callback=callback
+    )(f)
