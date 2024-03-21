@@ -1,7 +1,7 @@
 ---
 source:
   repository: /var/www/html/repo
-  branch: pablo/1.0
+  branch: exampleos/testing
   kernel_args:
     - root=LABEL=ROOT
     - rw
