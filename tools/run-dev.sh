@@ -3,6 +3,7 @@
 docker run \
      -i -t --privileged \
      -v $(pwd):/usr/src \
+     -v $(pwd)/data:/var/tmp/tiler \
      -v /dev:/dev \
      -v /run:/run \
      -v /sys:/sys \

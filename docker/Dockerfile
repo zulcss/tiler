@@ -6,6 +6,7 @@ RUN apt-get update && \
         python3-pip \
         python3-yaml \
         python3-rich \
+        python3-requests \
         python3-click \
         python3-systemd \
         python3-gi \

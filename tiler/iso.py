@@ -3,8 +3,12 @@ Copyright (c) 2024 Wind River Systems, Inc.
 
 SPDX-License-Identifier: Apache-2.0
 """
+from datetime import datetime
 import logging
 import os
+import pkg_resources
+import shutil
+import subprocess
 
 import requests
 
@@ -37,4 +41,24 @@ class ISO(object):
             raise Exception(f"Failed to download {self.stae.url}")
 
     def build(self):
+        """Build an live ISO from the specified configuration in tiler."""
         LOG.info("Running iso builder.")
+        timestamp = datetime.timestamp(datetime.now())
+
+        live_config = pkg_resources.resource_filename(
+            __name__, "../live-config")
+        shutil.copytree(live_config, self.workspace, dirs_exist_ok=True)
+        shutil.copytree(
+            self.workspace.joinpath("pablo-config"),
+            self.workspace.joinpath("config"))
+
+        LOG.info("Cleaning workspace.")
+        subprocess.run(["lb", "clean", "--all"], cwd=self.workspace)
+
+        LOG.info("Configuring ISO.")
+        subprocess.run(["lb", "build"], cwd=self.workspace)
+
+        tmp_iso = self.workspace.joinpath("live-image-amd64.hybrid.iso")
+        final_iso = self.workspace.joinpath(f"pablo-iso-{timestamp}.iso")
+        os.rename(tmp_iso, final_iso)
+        LOG.info(f"Your ISO can be found at: {final_iso}")

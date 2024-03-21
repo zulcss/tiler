@@ -11,8 +11,8 @@ lb config noauto \
     --firmware-binary true \
     --firmware-chroot true \
     --initramfs live-boot \
-    --iso-publisher debian-live-config \
-    --iso-volume debian-live-config-4.1.0 \
+    --iso-publisher pablo-linux \
+    --iso-volume pablo-linux-0.1 \
     --linux-packages "linux-image linux-headers" \
     --bootappend-live "boot=live config splash" \
     --memtest memtest86+ \

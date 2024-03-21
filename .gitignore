@@ -72,3 +72,5 @@ live-config/binary*
 live-config/chroot*
 live-config/live-image*
 
+# Created by dev environment
+data

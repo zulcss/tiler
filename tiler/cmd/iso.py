@@ -26,4 +26,12 @@ def fetch(state, url):
     ISO(state).fetch()
 
 
+@click.command(
+    help="Build ISO.")
+@pass_state_context
+def build(state):
+    ISO(state).build()
+
+
+iso.add_command(build)
 iso.add_command(fetch)
