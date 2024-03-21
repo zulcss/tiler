@@ -38,20 +38,28 @@ def run_command(cmd, print_output=True, **kwargs):
     LOG.debug("rc %d" % rc)
     return rc, outputs
 
-
-def run_chroot(args, image, **kwargs):
-    """Run a command in a seperate namespace."""
+def run_chroot(args, rootfs, efi=None, print_output=False, **kwargs):
+    """Run bubblewarap in a seperate namespace."""
     cmd = [
-        "systemd-nspawn",
-        "--quiet",
-        "--as-pid2",
-        "-i",
-        image
+        "bwrap",
+        "--bind", rootfs, "/",
+        "--ro-bind", "/etc/resolv.conf", "/etc/resolv.conf",
+        "--proc", "/proc",
+        "--dev-bind", "/dev", "/dev",
+        "--bind", "/sys", "/sys",
+        "--dir", "/run",
+        "--bind", "/tmp", "/tmp",
+        "--share-net",
+        "--die-with-parent",
+        "--chdir", "/",
     ]
+
+    if efi:
+        cmd += ["--bind", f"{efi}/efi", "/efi",
+                "--bind", f"{efi}/efi", "/boot/efi"]
+
     cmd += args
-
-    return run_command(cmd, **kwargs)
-
+    return run_command(cmd, print_output=print_output, **kwargs)
 
 def bwrap(args, rootfs, workspace=None, efi=False, **kwargs):
     """Run bubblewarap in a seperate namespace."""

@@ -1,7 +1,12 @@
 ---
 source:
   host: http://192.168.100.106/repo
-  branch: installer:pablo/1.0
+  branch: exampleos/testing
+  kernel_args:
+    - root=LABEL=ROOT
+    - rw
+    - console=tty0
+    - console=ttyS0,115200n8
 disk:
   device: /dev/vda
   partitions:

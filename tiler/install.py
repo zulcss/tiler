@@ -9,6 +9,7 @@ import logging
 from tiler.config import Config
 from tiler.config import exceptions
 from tiler.image import ImagePart
+from tiler.ostree import OstreeDeploy
 
 LOG = logging.getLogger(__name__)
 
@@ -32,5 +33,13 @@ class Installer(object):
 
         LOG.info("Create Disk Partition and Format Filesystem")
         self.image = ImagePart(self.state, config).run()
+
+        source = config.get("source")
+        if source.get("repository") and source.get("branch"):
+            LOG.info("Deploy Ostree to Disk device")
+            ostree = OstreeDeploy(self.state, config).run()
+        elif source.get("origin") and source.get("file"):
+            # TODO
+            pass
 
         LOG.info("Perforfind install")
