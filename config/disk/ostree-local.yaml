@@ -2,6 +2,11 @@
 source:
   repository: /var/www/html/repo
   branch: pablo/1.0
+  kernel_args:
+    - root=LABEL=ROOT
+    - rw
+    - console=tty0
+    - console=ttyS0,115200n8
 disk:
   device: /dev/vda
   partitions:
