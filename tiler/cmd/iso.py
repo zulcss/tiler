@@ -6,6 +6,7 @@ SPDX-License-Identifier: Apache-2.0
 """
 import click
 
+from tiler.cmd.options import config_option
 from tiler.cmd.options import url_option
 from tiler.cmd import pass_state_context
 from tiler.iso import ISO
@@ -29,7 +30,8 @@ def fetch(state, url):
 @click.command(
     help="Build ISO.")
 @pass_state_context
-def build(state):
+@config_option
+def build(state, config):
     ISO(state).build()
 
 

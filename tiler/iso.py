@@ -6,7 +6,6 @@ SPDX-License-Identifier: Apache-2.0
 from datetime import datetime
 import logging
 import os
-import pkg_resources
 import shutil
 import subprocess
 
@@ -45,9 +44,7 @@ class ISO(object):
         LOG.info("Running iso builder.")
         timestamp = datetime.timestamp(datetime.now())
 
-        live_config = pkg_resources.resource_filename(
-            __name__, "../live-config")
-        shutil.copytree(live_config, self.workspace, dirs_exist_ok=True)
+        shutil.copytree(self.state.config, self.workspace, dirs_exist_ok=True)
         shutil.copytree(
             self.workspace.joinpath("pablo-config"),
             self.workspace.joinpath("config"))
