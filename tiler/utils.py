@@ -38,6 +38,7 @@ def run_command(cmd, print_output=True, **kwargs):
     LOG.debug("rc %d" % rc)
     return rc, outputs
 
+
 def run_chroot(args, rootfs, efi=None, print_output=False, **kwargs):
     """Run bubblewarap in a seperate namespace."""
     cmd = [
@@ -60,6 +61,7 @@ def run_chroot(args, rootfs, efi=None, print_output=False, **kwargs):
 
     cmd += args
     return run_command(cmd, print_output=print_output, **kwargs)
+
 
 def bwrap(args, rootfs, workspace=None, efi=False, **kwargs):
     """Run bubblewarap in a seperate namespace."""

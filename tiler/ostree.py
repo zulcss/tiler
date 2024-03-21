@@ -4,10 +4,8 @@ Copyright (c) 2024 Wind River Systems, Inc.
 SPDX-License-Identifier: Apache-2.0
 
 """
-import hashlib
 import logging
 import os
-import pathlib
 import shutil
 import sys
 
@@ -82,5 +80,3 @@ class OstreeDeploy(object):
             rootfs.joinpath("efi/loader/entries/ostree-0-1.conf"))
 
         umount(rootfs)
-
-

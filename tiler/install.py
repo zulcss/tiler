@@ -37,7 +37,7 @@ class Installer(object):
         source = config.get("source")
         if source.get("repository") and source.get("branch"):
             LOG.info("Deploy Ostree to Disk device")
-            ostree = OstreeDeploy(self.state, config).run()
+            OstreeDeploy(self.state, config).run()
         elif source.get("origin") and source.get("file"):
             # TODO
             pass
