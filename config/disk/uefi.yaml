@@ -7,7 +7,7 @@ disk:
   partitiontype: gpt
   partitions:
     - name: EFI
-      start: O%
+      start: 0%
       end: 256MB
       flags: [boot, esp]
     - name: ROOT
@@ -22,4 +22,4 @@ disk:
       label: ROOT
       fs: ext4
       options: []
-
+kernel_args: "root=LABEL=ROOT console=tty0 console=ttyS0,115200"

@@ -10,36 +10,35 @@ import subprocess
 LOG = logging.getLogger(__name__)
 
 
-def run_command(cmd, print_output=True, **kwargs):
-    LOG.debug('Running %s' % cmd)
+def run_command(args, data=None, env=None, capture=False, shell=False,
+                **kwargs):
+    LOG.debug('Running %s' % args)
 
-    outputs = ""
-    process = subprocess.Popen(cmd,
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.STDOUT,
-                               universal_newlines=True,
-                               **kwargs)
-    while True:
-        output = process.stdout.readline()
-        if output:
-            if print_output:
-                LOG.debug(output.rstrip("\n"))
-            outputs += output
-        if process.poll() is not None:
-            break
-
-    # Read the remaining logs from stdout after process terminates
-    output = process.stdout.read()
-    if output:
-        LOG.debug(output.rstrip("\n"))
-        outputs += output
-
-    rc = process.poll()
-    LOG.debug("rc %d" % rc)
-    return rc, outputs
+    try:
+        if not capture:
+            stdout = None
+            stderr = None
+        else:
+            stdout = subprocess.PIPE
+            stderr = subprocess.PIP
+        stdin = subprocess.PIPE
+        sp = subprocess.Popen(args, stdout=stdout,
+                              stderr=stderr, stdin=stdin,
+                              **kwargs)
+        (out, err) = sp.communicate(data)
+    except OSError:
+        try:
+            out = out.decode("utf-8") if out else ""
+            err = err.decode("utf-8") if err else ""
+            raise Exception(
+                f"Failed to run command {args}, out={out}, error={err}")
+        except UnboundLocalError:
+            raise Exception(args)
+    return (out, err)
 
 
-def run_chroot(args, rootfs, efi=None, print_output=False, **kwargs):
+def run_chroot_command(args, rootfs, efi=None, data=None, env=None,
+                       capture=None, shell=False, **kwargs):
     """Run bubblewarap in a seperate namespace."""
     cmd = [
         "bwrap",
@@ -60,31 +59,8 @@ def run_chroot(args, rootfs, efi=None, print_output=False, **kwargs):
                 "--bind", f"{efi}/efi", "/boot/efi"]
 
     cmd += args
-    return run_command(cmd, print_output=print_output, **kwargs)
-
-
-def bwrap(args, rootfs, workspace=None, efi=False, **kwargs):
-    """Run bubblewarap in a seperate namespace."""
-    cmd = [
-        "bwrap",
-        "--bind", rootfs, "/",
-        "--proc", "/proc",
-        "--dev-bind", "/dev", "/dev",
-        "--bind", "/sys", "/sys",
-        "--dir", "/run",
-        "--bind", "/tmp", "/tmp",
-        "--share-net",
-        "--die-with-parent",
-        "--chdir", "/",
-    ]
-
-    if efi:
-        cmd += [
-            "--bind", f"{workspace}/efi", "/efi",
-            "--bind", "/sys/firmware/efi/efivars", "/sys/firmware/efi/efivars",
-        ]
-
-    print(cmd)
-    cmd += args
-
-    return run_command(cmd, **kwargs)
+    return run_command(cmd,
+                       data=None,
+                       env=None,
+                       capture=capture,
+                       shell=shell)
