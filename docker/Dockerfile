@@ -16,6 +16,10 @@ RUN apt-get update && \
         systemd-container \
         ostree \
         dosfstools \
+        parted \
+        udev \
+        bubblewrap \
+        systemd-boot \
         gir1.2-ostree-1.0 \
         git
 
