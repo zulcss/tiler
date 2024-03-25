@@ -19,15 +19,26 @@ repository run the following commands:
 
 2. ruck build --config image.yaml
 
+== Install from an ostree branch ==
+
+1. Install tiler
+
+    PBR_VERSION=1.2.3 pip3 install -e . --break-system-packages
+
+2. Run tiler install
+
+    tiler --debug install --config config/disk/ostree-local.yaml
+
 == To create an install ISO ==
 
 To create an install ISO to be used in a VM or bare metal run the following
 commands:
 
-1. cd live-config
+1. Inside the container clone live-config repository
 
-2. ./build-iso.sh
+    git clone https://github.com/zulcss/pablo-live-config
 
-To remove the build artifacts simply run the following script:
+2. Create the ISO
 
-  ,/clean.sh
+    tiler iso build --config pablo-live-config
+
