@@ -45,6 +45,10 @@ class ISO(object):
         timestamp = datetime.timestamp(datetime.now())
 
         shutil.copytree(self.state.config, self.workspace, dirs_exist_ok=True)
+
+        if os.path.exists(self.workspace.joinpath("config")):
+            shutil.rmtree(self.workspace.joinpath("config"))
+
         shutil.copytree(
             self.workspace.joinpath("pablo-config"),
             self.workspace.joinpath("config"))
