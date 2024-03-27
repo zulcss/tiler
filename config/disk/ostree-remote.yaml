@@ -1,6 +1,6 @@
 ---
 source:
-  host: http://192.168.100.106/repo
+  repository: http://127.0.0.1/repo
   branch: exampleos/testing
   kernel_args:
     - root=LABEL=ROOT
@@ -11,7 +11,7 @@ disk:
   device: /dev/vda
   partitions:
     - name: EFI
-      start: O%
+      start: 0%
       end: 256MB
       flags: [boot, esp]
     - name: ROOT
