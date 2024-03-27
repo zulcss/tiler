@@ -47,9 +47,19 @@ class OstreeDeploy(object):
         ostree_repo.mkdir(parents=True, exist_ok=True)
         utils.run_command(
             ["ostree", "init", "--repo", ostree_repo, "--mode", "bare"])
-        self.logging.info(f"Pulling {branch}")
-        utils.run_command(
-            ["ostree", "pull-local", "--repo", ostree_repo, repo, branch])
+        self.logging.info(f"Pulling {branch} from {repo}")
+        if repo.startswith("http"):
+            utils.run_command(
+                ["ostree", "remote", "--repo={0}".format(ostree_repo), "add", "--no-gpg-verify", "pablo-edge", repo])
+            utils.run_command(
+                ["ostree", "pull", "--repo={0}".format(ostree_repo), "pablo-edge", branch])
+        elif os.path.exists(repo):
+            utils.run_command(
+                ["ostree", "pull-local", "--repo", ostree_repo, repo, branch])
+        else:
+            self.logging.error("Invalid ostree repository {repo}")
+            sys.exit(1)
+
         utils.run_command(
             ["ostree", "config", "--repo", ostree_repo, "--group", "sysroot",
              "set", "bootloader", "none"])
