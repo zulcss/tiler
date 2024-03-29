@@ -1,24 +1,37 @@
 ---
-name: ExamplesOS-ostree
-steps:
-  - step: bootstrap
+name: pablo-ostree-amd64
+description: "AMD64 ostree configuration."
+architecture: amd64
+version: 0.1
+schemaVersion: 1
+params:
+  version: $[version}
+  tarball: pablo-rootfs-${version}-${architecture}.tar.gz
+  repo: /var/www/html/repo
+  branch: exampleos/testing
+phases:
+  - name: "Create rootfs"
+    stage: bootstrap
     options:
       suite: bookworm
-      target: rootfs.tar.gz
-      setup-hooks:
+      target: ${params.tarball}
+      architecture: ${architecture}
+      setup_hooks:
         - 'sync-in overlay/debian/ /'
-      customize-hooks:
+      customize_hooks:
         - echo 'root:root' | chroot "$1" chpasswd
         - systemctl enable --root="$1" systemd-networkd
         - chroot $1 echo "localhost" > $1/etc/hostname
         - mkdir -p $1/efi
       packages: !include manifests/software.yaml
-  - step: ostree_init
+  - name: "Create ostree repository"
+    stage: ostree_init
     options:
-      repo: /var/www/html/repo
-      mode: bare
-  - step: ostree_prep
+      repo: ${params.repo}
+      mode: archive-z2
+  - name: "Create an ostree branch."
+    stage: ostree_prep
     options:
-      repo: /var/www/html/repo
-      branch: exampleos/testing
-      target: rootfs.tar.gz
+      repo: ${params.repo}
+      branch: ${params.branch}
+      target: ${params.tarball}

@@ -8,7 +8,6 @@ RUN apt-get update && \
         python3-rich \
         python3-requests \
         python3-click \
-        python3-systemd \
         python3-gi \
         python3-pbr \
         live-build \
@@ -24,6 +23,8 @@ RUN apt-get update && \
         git
 
 COPY files/pip.conf /etc/pip.conf
+
+RUN pip install omegaconf
 
 # Needed for ruck - change me when there is a proper repo.
 RUN pip3 install -e git+https://github.com/zulcss/ruck.git#egg=ruck
