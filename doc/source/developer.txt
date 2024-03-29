@@ -15,7 +15,13 @@ To create a dev environment for tiler
 Before running tiler you have to create an ostree repository. In the main
 repository run the following commands:
 
-1. cd config/ostree
+1. For x86-64
+
+     cd config/ostree
+
+   Or for arm64
+
+     cd config/ostree-arm64
 
 2. ruck build --config image.yaml
 

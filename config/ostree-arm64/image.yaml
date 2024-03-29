@@ -1,13 +1,14 @@
 ---
-name: pablo-ostree-amd64
-description: "AMD64 ostree configuration."
-architecture: amd64
+name: pablo-ostree-arm64
+description: "ARM64 ostree configuration."
+architecture: arm64
 version: 0.1
 schemaVersion: 1
 params:
   version: $[version}
   tarball: pablo-rootfs-${version}-${architecture}.tar.gz
   repo: /var/www/html/repo
+  image: pablo-image-ostree-${version}-${architecture}.img
   branch: exampleos/testing
 phases:
   - name: "Create rootfs"

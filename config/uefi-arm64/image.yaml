@@ -1,16 +1,14 @@
 ---
-name: pablo-ostree-amd64
-description: "AMD64 ostree configuration."
-architecture: amd64
+name: pablo-uefi-arm64
+description: "ARM64 example configuration."
+architecture: arm64
 version: 0.1
 schemaVersion: 1
 params:
-  version: $[version}
+  version: ${version}
   tarball: pablo-rootfs-${version}-${architecture}.tar.gz
-  repo: /var/www/html/repo
-  branch: exampleos/testing
 phases:
-  - name: "Create rootfs"
+  - name: "Creating tarball."
     stage: bootstrap
     options:
       suite: bookworm
@@ -22,16 +20,4 @@ phases:
         - echo 'root:root' | chroot "$1" chpasswd
         - systemctl enable --root="$1" systemd-networkd
         - chroot $1 echo "localhost" > $1/etc/hostname
-        - mkdir -p $1/efi
       packages: !include manifests/software.yaml
-  - name: "Create ostree repository"
-    stage: ostree_init
-    options:
-      repo: ${params.repo}
-      mode: archive-z2
-  - name: "Create an ostree branch."
-    stage: ostree_prep
-    options:
-      repo: ${params.repo}
-      branch: ${params.branch}
-      target: ${params.tarball}
