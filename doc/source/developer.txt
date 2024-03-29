@@ -31,9 +31,16 @@ repository run the following commands:
 
     PBR_VERSION=1.2.3 pip3 install -e . --break-system-packages
 
-2. Run tiler install
+2. Run tiler to install from local ostree repository
 
     tiler --debug install --config config/disk/ostree-local.yaml
+
+3. Run tiler to install from remote ostree repository
+
+    # Setup web server
+    python3 -m http.server 80 --directory /var/www/html > /dev/null 2>&1 &
+
+    tiler --debug install --config config/disk/ostree-remote.yaml
 
 == To create an install ISO ==
 
