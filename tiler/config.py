@@ -10,6 +10,7 @@ import yaml
 
 from tiler import exceptions
 
+
 class Config(object):
     """load the configuration file from the CLI."""
 
