@@ -5,12 +5,8 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import logging
-import os
-import shutil
 
 from tiler.modules.base import ModuleBase
-from tiler.mount import mount
-from tiler.mount import umount
 from tiler import utils
 
 
@@ -24,17 +20,18 @@ class Bootloader(ModuleBase):
         self.logging = logging.getLogger(__name__)
         self.device = self.config.params.disk
         self.kernel_args = self.stage.kernel_args
-        self.rootfs = self.state.workspace.joinpath(f"{self.config.name}/rootfs")
+        self.rootfs = self.state.workspace.joinpath(
+            f"{self.config.name}/rootfs")
 
     def run(self):
         self.logging.info("Installing bootloader")
 
         utils.run_chroot_command(
-                ["bootctl", "install",
-                 "--no-variables",
-                 "--entry-token", "os-id"],
-                self.rootfs,
-                efi=self.rootfs)
+            ["bootctl", "install",
+             "--no-variables",
+             "--entry-token", "os-id"],
+            self.rootfs,
+            efi=self.rootfs)
 
         # Should be only one kernel.
         for d in self.rootfs.glob("boot/vmlinuz-*"):

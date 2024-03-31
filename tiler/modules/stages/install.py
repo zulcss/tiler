@@ -11,7 +11,6 @@ from stevedore import driver
 from tiler.modules.base import ModuleBase
 
 
-
 class Install(ModuleBase):
     def __init__(self, state, config):
         self.state = state
@@ -20,7 +19,7 @@ class Install(ModuleBase):
         self.logging = logging.getLogger(__name__)
 
     def run(self):
-         if self.config.stages.install:
+        if self.config.stages.install:
             for step in self.config.stages.install:
                 self.logging.info(step.name)
                 self.logging.info(f"Running {step.module}.")
