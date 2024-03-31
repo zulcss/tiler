@@ -5,6 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 
 """
 import logging
+import shutil
 import subprocess
 
 LOG = logging.getLogger(__name__)
@@ -64,3 +65,7 @@ def run_chroot_command(args, rootfs, efi=None, data=None, env=None,
                        env=None,
                        capture=capture,
                        shell=shell)
+
+
+def which(cmd):
+    return shutil.which(cmd)
