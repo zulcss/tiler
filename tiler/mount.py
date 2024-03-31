@@ -10,9 +10,9 @@ from tiler import utils
 
 def mount(image, rootfs):
     utils.run_command(
-        ["systemd-dissect", "-M", image, rootfs])
+        ["systemd-dissect", "-m", image, rootfs])
 
 
 def umount(rootfs):
     utils.run_command(
-        ["systemd-dissect", "-U", rootfs])
+        ["systemd-dissect", "-u", rootfs])

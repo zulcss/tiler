@@ -33,17 +33,14 @@ class Unpack(ModuleBase):
         if not os.path.exists(self.source):
             raise Exception(f"Couuld not find {self.source}.")
         
-        self.rootfs.mkdir(parents=True, exist_ok=True)
-        try:
-            self.logging.info(f"Mounting {self.device} on {self.rootfs}.")
-            mount(self.device, self.rootfs)
+        if not self.rootfs.exists():
+            self.rootfs.mkdir(parents=True, exist_ok=True)
+        
+        self.logging.info(f"Mounting {self.device} on {self.rootfs}.")
+        mount(self.device, self.rootfs)
 
-            self.logging.info(f"Unpacking {self.source}.")
-            utils.run_command(
-                ["tar", "-C", self.rootfs,
-                 "--exclude=./dev/*",
-                 "-zxf", self.source, "--numeric-owner"])
-        finally:
-            self.logging.info(f"Unmounting {self.rootfs}.")
-            umount(self.rootfs)
-            shutil.rmtree(self.rootfs)
+        self.logging.info(f"Unpacking {self.source}.")
+        utils.run_command(
+            ["tar", "-C", self.rootfs,
+             "--exclude=./dev/*",
+             "-zxf", self.source, "--numeric-owner"])
