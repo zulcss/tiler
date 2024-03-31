@@ -31,8 +31,6 @@ class Installer(object):
 
         if config.stages:
             for stage in config.stages:
-                LOG.info(f"Running {stage} stage.")
-
                 try:
                     mgr = driver.DriverManager(
                         namespace="tiler.modules.stages",

@@ -8,14 +8,16 @@ import logging
 
 from tiler.modules.base import ModuleBase
 
-LOG = logging.getLogger(__name__)
 
+class Noop(ModuleBase):
+    """Module that does nothing."""
 
-class Disk(ModuleBase):
-    def __init__(self, state, config):
+    def __init__(self, state, config, stage):
         self.state = state
         self.config = config
+        self.state = stage
+
+        self.logging = logging.getLogger(__name__)
 
     def run(self):
-        """Run the disk plugin."""
-        pass
+        self.logging.info("hello world")
