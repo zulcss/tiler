@@ -7,4 +7,5 @@ click
 rich
 pyyaml
 requests
-
+omegaconf
+stevedore
