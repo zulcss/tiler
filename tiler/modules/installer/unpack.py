@@ -38,12 +38,12 @@ class Unpack(ModuleBase):
             self.logging.info(f"Mounting {self.device} on {self.rootfs}.")
             mount(self.device, self.rootfs)
 
-            #self.logging.info(f"Unpacking {self.source}.")
-            #utils.run_command(
-            #    ["tar", "-C", self.rootfs,
-            #     "--exclude=./dev/*",
-            #     "-zxf", self.source, "--numeric-owner"])
+            self.logging.info(f"Unpacking {self.source}.")
+            utils.run_command(
+                ["tar", "-C", self.rootfs,
+                 "--exclude=./dev/*",
+                 "-zxf", self.source, "--numeric-owner"])
         finally:
             self.logging.info(f"Unmounting {self.rootfs}.")
-            #umount(self.rootfs)
-            #shutil.rmtree(self.rootfs)
+            umount(self.rootfs)
+            shutil.rmtree(self.rootfs)
