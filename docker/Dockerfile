@@ -19,6 +19,7 @@ RUN apt-get update && \
         udev \
         bubblewrap \
         systemd-boot \
+        qemu-utils \
         gir1.2-ostree-1.0 \
         git
 
