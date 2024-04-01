@@ -6,7 +6,7 @@ architecture: amd64
 params:
   disk: /dev/loop1
   repository: http://127.0.0.1/repo
-  branch: exampleos/testing
+  branch: pablo/${architecture}
 stages:
   early:
   disk:
@@ -38,8 +38,8 @@ stages:
     - name: "Initiliazing repository."
       module: installer.ostree.init
       options: []
-    - name: "Pulling from local branch"
-      module: installer.ostree.pull.local
+    - name: "Pulling from remote ostree branch"
+      module: installer.ostree.pull.remote
       options: []
     - name: "Deploying branch"
       module: installer.ostree.deploy

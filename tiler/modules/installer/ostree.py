@@ -80,7 +80,7 @@ class OstreePullRemote(ModuleBase):
                  "--no-gpg-verify", "pablo-edge", self.repo])
             utils.run_command(
                 ["ostree", "pull", "--repo={0}".format(repo), "pablo-edge",
-                 self.repo, self.branch])
+                 self.branch])
 
 
 class OstreeDeploy(ModuleBase):

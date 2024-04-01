@@ -6,7 +6,7 @@ architecture: amd64
 params:
   disk: /dev/loop1
   repository: /var/www/html/repo
-  branch: exampleos/testing
+  branch: pablo/${architecture}
 stages:
   early:
   disk:
