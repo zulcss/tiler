@@ -31,16 +31,33 @@ repository run the following commands:
 
     PBR_VERSION=1.2.3 pip3 install -e . --break-system-packages
 
-2. Run tiler to install from local ostree repository
+2. Create loop device (/dev/loop1) for installer
+
+    qemu-img create -f raw ./pablo-image.img 32G
+
+    losetup /dev/loop1 ./pablo-image.img
+
+3. Run tiler to install from local ostree repository
 
     tiler --debug install --config config/disk/ostree-local.yaml
 
-3. Run tiler to install from remote ostree repository
+4. Run tiler to install from remote ostree repository
 
     # Setup web server
     python3 -m http.server 80 --directory /var/www/html > /dev/null 2>&1 &
 
     tiler --debug install --config config/disk/ostree-remote.yaml
+
+5. Boot installed image (pablo-image.img) via qemu
+
+    # Out of container, install qemu-system-x86 and ovmf, and run
+    qemu-system-x86_64 -m 4096 \
+       -cpu kvm64 -enable-kvm -nographic \
+       -device virtio-blk-pci,drive=hd,scsi=off \
+       -drive if=none,id=hd,file=./pablo-image.img,format=raw \
+       -drive if=pflash,format=raw,file=/usr/share/OVMF/OVMF_CODE.fd \
+       -drive if=pflash,format=raw,file=/usr/share/OVMF/OVMF_VARS.fd \
+       -nic user
 
 == To create an install ISO ==
 
