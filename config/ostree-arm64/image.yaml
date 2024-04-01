@@ -5,11 +5,10 @@ architecture: arm64
 version: 0.1
 schemaVersion: 1
 params:
-  version: $[version}
   tarball: pablo-rootfs-${version}-${architecture}.tar.gz
   repo: /var/www/html/repo
   image: pablo-image-ostree-${version}-${architecture}.img
-  branch: exampleos/testing
+  branch: pablo/${architecture}
 phases:
   - name: "Create rootfs"
     stage: bootstrap
