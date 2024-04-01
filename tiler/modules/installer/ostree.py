@@ -58,6 +58,31 @@ class OstreePullLocal(ModuleBase):
             ["ostree", "pull-local", "--repo", repo, self.repo, self.branch])
 
 
+class OstreePullRemote(ModuleBase):
+    def __init__(self, state, config, stage):
+        self.state = state
+        self.config = config
+        self.stage = stage
+
+        self.logging = logging.getLogger(__name__)
+        self.device = self.config.params.disk
+        self.repo = self.config.params.repository
+        self.branch = self.config.params.branch
+        self.rootfs = self.state.workspace.joinpath(
+            f"{self.config.name}/rootfs")
+
+    def run(self):
+        repo = self.rootfs.joinpath("ostree/repo")
+        if self.repo.startswith("http"):
+            self.logging.info(f"Pulling from {self.repo}")
+            utils.run_command(
+                ["ostree", "remote", "--repo={0}".format(repo), "add",
+                 "--no-gpg-verify", "pablo-edge", self.repo])
+            utils.run_command(
+                ["ostree", "pull", "--repo={0}".format(repo), "pablo-edge",
+                 self.repo, self.branch])
+
+
 class OstreeDeploy(ModuleBase):
     def __init__(self, state, config, stage):
         self.state = state
