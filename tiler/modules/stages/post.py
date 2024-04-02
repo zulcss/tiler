@@ -42,4 +42,7 @@ class Post(ModuleBase):
                     )
         if os.path.ismount(self.rootfs):
             self.logging.info("Cleaning up")
-            umount(self.rootfs)
+            ret = umount(self.rootfs)
+            if ret != 0:
+                self.logging.error(f"Umounted {self.rootfs} failed.")
+                sys.exit(1)

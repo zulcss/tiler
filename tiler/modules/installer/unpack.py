@@ -6,6 +6,7 @@ SPDX-License-Identifier: Apache-2.0
 
 import logging
 import os
+import sys
 
 from tiler.modules.base import ModuleBase
 from tiler.mount import mount
@@ -36,7 +37,10 @@ class Unpack(ModuleBase):
             self.rootfs.mkdir(parents=True, exist_ok=True)
 
         self.logging.info(f"Mounting {self.device} on {self.rootfs}.")
-        mount(self.device, self.rootfs)
+        ret = mount(self.device, self.rootfs)
+        if ret != 0:
+            self.logging.error(f"Mounted {self.device} on {self.rootfs} failed.")
+            sys.exit(1)
 
         self.logging.info(f"Unpacking {self.source}.")
         utils.run_command(

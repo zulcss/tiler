@@ -5,6 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import logging
+import sys
 
 from tiler.modules.base import ModuleBase
 from tiler.mount import mount
@@ -28,7 +29,10 @@ class OstreeInit(ModuleBase):
         self.logging.info("Unpacking source.")
 
         self.logging.info(f"Mounting {self.device} on {self.rootfs}.")
-        mount(self.device, self.rootfs)
+        ret = mount(self.device, self.rootfs)
+        if ret != 0:
+            self.logging.error(f"Mounted {self.device} on {self.rootfs} failed.")
+            sys.exit(1)
 
         repo = self.rootfs.joinpath("ostree/repo")
         self.logging.info(f"Creating {repo}")
