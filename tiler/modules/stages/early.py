@@ -9,6 +9,8 @@ import logging
 from stevedore import driver
 
 from tiler.block import is_block
+from tiler.machine import valid_arch
+
 from tiler.modules.base import ModuleBase
 
 
@@ -28,6 +30,11 @@ class Early(ModuleBase):
         if not is_block(self.config.params.disk):
             raise Exception(
                 f"{self.config.params.disk} is not a block device.")
+
+        self.logging.info("Checking for architecture.")
+        if not valid_arch(self.config.architecture):
+            raise Exception(
+                f"Invalid architecture: {self.config.architecture}.")
 
         if self.config.stages.early:
             for step in self.config.stages.early:
