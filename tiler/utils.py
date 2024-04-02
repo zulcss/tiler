@@ -11,22 +11,19 @@ import subprocess
 LOG = logging.getLogger(__name__)
 
 
-def run_command(args, data=None, env=None, capture=False, shell=False,
-                **kwargs):
+def run_command(args, data=None, **kwargs):
     LOG.debug('Running %s' % args)
+    ret = False
 
     try:
-        if not capture:
-            stdout = None
-            stderr = None
-        else:
-            stdout = subprocess.PIPE
-            stderr = subprocess.PIP
+        stdout = subprocess.PIPE
+        stderr = subprocess.PIPE
         stdin = subprocess.PIPE
         sp = subprocess.Popen(args, stdout=stdout,
                               stderr=stderr, stdin=stdin,
                               **kwargs)
         (out, err) = sp.communicate(data)
+        ret = sp.poll()
     except OSError:
         try:
             out = out.decode("utf-8") if out else ""
@@ -35,11 +32,23 @@ def run_command(args, data=None, env=None, capture=False, shell=False,
                 f"Failed to run command {args}, out={out}, error={err}")
         except UnboundLocalError:
             raise Exception(args)
-    return (out, err)
+
+    out = out.decode("utf-8") if out else ""
+    err = err.decode("utf-8") if err else ""
+
+    if ret != 0:
+        LOG.error(f"Failed to run command {args}, out={out}, error={err}")
+        return (ret, out, err)
+
+    if out:
+        LOG.debug(f"out={out}")
+    if err:
+        LOG.debug(f"err={err}")
+
+    return (ret, out, err)
 
 
-def run_chroot_command(args, rootfs, efi=None, data=None, env=None,
-                       capture=None, shell=False, **kwargs):
+def run_chroot_command(args, rootfs, efi=None, **kwargs):
     """Run bubblewarap in a seperate namespace."""
     cmd = [
         "bwrap",
@@ -60,11 +69,7 @@ def run_chroot_command(args, rootfs, efi=None, data=None, env=None,
                 "--bind", f"{efi}/efi", "/boot/efi"]
 
     cmd += args
-    return run_command(cmd,
-                       data=None,
-                       env=None,
-                       capture=capture,
-                       shell=shell)
+    return run_command(cmd)
 
 
 def which(cmd):
