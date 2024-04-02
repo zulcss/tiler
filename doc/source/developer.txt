@@ -42,7 +42,7 @@ repository run the following commands:
 
     qemu-img create -f raw ./pablo-image.img 32G
 
-    losetup /dev/loop1 ./pablo-image.img
+    losetup --partscan /dev/loop1 ./pablo-image.img
 
 3. Run tiler to install from local ostree repository
 
